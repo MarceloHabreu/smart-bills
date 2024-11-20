@@ -1,5 +1,8 @@
 <div>
-    <a href="{{ route('account.index') }}">Voltar</a>
+    <a href="{{ route('account.index') }}"><button type="button">Home</button></a>
+    <br><br>
+    <a href="{{ route('account.edit', ['account' => $account->id]) }}"><button type="button">Editar</button></a>
+
     <div>
         <h2>Detalhes da Conta</h2>
 

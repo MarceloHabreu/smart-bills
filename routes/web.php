@@ -12,6 +12,6 @@ Route::get('/index-account', [AccountController::class, 'index'])->name('account
 Route::get('/create-account', [AccountController::class, 'create'])->name('account.create');
 Route::post('/store-account', [AccountController::class, 'store'])->name('account.store');
 Route::get('/show-account/{account}', [AccountController::class, 'show'])->name('account.show');
-Route::get('/edit-account', [AccountController::class, 'edit'])->name('account.edit');
-Route::put('/update-account', [AccountController::class, 'update'])->name('account.update');
-Route::delete('/destroy-account', [AccountController::class, 'destroy'])->name('account.destroy');
+Route::get('/edit-account/{account}', [AccountController::class, 'edit'])->name('account.edit');
+Route::put('/update-account/{account}', [AccountController::class, 'update'])->name('account.update');
+Route::delete('/destroy-account/{account}', [AccountController::class, 'destroy'])->name('account.destroy');

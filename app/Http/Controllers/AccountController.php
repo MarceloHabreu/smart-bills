@@ -45,20 +45,38 @@ class AccountController extends Controller
     }
 
     // Carregar form de editar conta
-    public function edit()
+    public function edit(Account $account)
     {
-        return view('accounts.edit');
+        return view('accounts.edit', ['account' => $account]);
     }
 
     // atualizar dados da nova conta
-    public function update()
+    public function update(AccountRequest $request, Account $account)
     {
-        dd('Editar');
+
+        // editando as info no banco de dados
+        $updated = $account->update([
+            'name' => $request->name,
+            'value' => $request->value,
+            'due_date' => $request->due_date,
+        ]);
+
+        // redirecionando após atualização
+        if ($updated) {
+            return redirect()->route('account.show', ['account' => $account->id])->with('success', 'Conta editada com succeso!');
+        }
+        return redirect()->route('account.index')->with('error', 'Erro ao editar a conta!');
     }
 
     // apagar uma conta
-    public function destroy()
+    public function destroy(Account $account)
     {
-        dd('Apagar');
+        // excluir registro do banco de dados
+        $deleted = $account->delete();
+
+        if ($deleted) {
+            return redirect()->route('account.index')->with('success', 'Conta apagada com succeso!');
+        }
+        return redirect()->route('account.index')->with('error', 'Erro ao editar a conta!');
     }
 }

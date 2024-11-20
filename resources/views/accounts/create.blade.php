@@ -1,5 +1,5 @@
 <div>
-    <a href="{{ route('account.index') }}">Voltar</a>
+    <a href="{{ route('account.index') }}"><button type="button">Home</button></a><br><br>
 
     <h2>Cadastrar Conta</h2>
 
@@ -26,7 +26,7 @@
         <input type="text" name="value" id="value" placeholder="valor..." value="{{ old('value') }}"> <br>
 
         {{-- Vencimento --}}
-        <label for="due_date">Name:</label>
+        <label for="due_date">Vencimento: </label>
         <input type="date" name="due_date" id="due_date" value="{{ old('due_date') }}"> <br>
 
         {{-- Botão --}}
