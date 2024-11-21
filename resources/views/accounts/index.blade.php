@@ -54,6 +54,7 @@
                         @endforelse
                     </tbody>
                 </table>
+                {{ $accounts->onEachSide(0)->links() }}
             </div>
         </div>
     </div>

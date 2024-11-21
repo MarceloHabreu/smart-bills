@@ -13,7 +13,7 @@ class AccountController extends Controller
     // Visualizar contas
     public function index()
     {
-        $accounts = Account::orderByDesc('created_at')->get();
+        $accounts = Account::orderByDesc('created_at')->paginate(3);
 
         return view('accounts.index', [
             'accounts' => $accounts,
