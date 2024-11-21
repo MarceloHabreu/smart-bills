@@ -23,11 +23,8 @@
                     <li><a href="#" class="nav-link px-2 text-white">Dashboard</a></li>
                 </ul>
 
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                    <input type="search" class="form-control" placeholder="Buscar..." aria-label="Search">
-                </form>
-
-                <div class="dropdown text-end">
+                <div class="dropdown text-end d-flex align-items-center">
+                    <span class="me-2">Seja bem-vindo, User Test</span>
                     <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
                     </a>

@@ -10,13 +10,27 @@ use Illuminate\Support\Facades\Log;
 
 class AccountController extends Controller
 {
-    // Visualizar contas
-    public function index()
+    // Listar contas
+    public function index(Request $request)
     {
-        $accounts = Account::orderByDesc('created_at')->paginate(3);
+        $accounts = Account::when($request->has('name'), function ($whenQuery) use ($request) {
+            $whenQuery->where('name', 'like', '%' . $request->name . '%');
+        })
+            ->when($request->filled('start_date'), function ($whenQuery) use ($request) {
+                $whenQuery->where('due_date', '>=', \Carbon\Carbon::parse($request->start_date)->format('Y-m-d'));
+            })
+            ->when($request->filled('end_date'), function ($whenQuery) use ($request) {
+                $whenQuery->where('due_date', '<=', \Carbon\Carbon::parse($request->end_date)->format('Y-m-d'));
+            })
+            ->orderByDesc('created_at')
+            ->paginate(3)
+            ->withQueryString();
 
         return view('accounts.index', [
             'accounts' => $accounts,
+            'name' => $request->name,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
         ]);
     }
 
