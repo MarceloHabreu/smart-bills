@@ -1,35 +1,60 @@
-<div>
-    <a href="{{ route('account.index') }}"><button type="button">Home</button></a><br><br>
+@extends('layouts.master')
 
-    <h2>Cadastrar Conta</h2>
+@section('content')
+    <div>
+        <div class="card mt-4 mb-4 border-light shadow">
+            <div class="card-header d-flex justify-content-between">
+                <span>
+                    Criar Conta
+                </span>
+                <span>
+                    <a href="{{ route('account.index') }}" class="btn btn-info btn-sm me-1">Home</a>
+                </span>
+            </div>
 
-    {{-- Mensagens de error --}}
-    @if ($errors->any())
-        <span style="color: #f00">
-            @foreach ($errors->all() as $error)
-                {{ $error }} <br>
-            @endforeach
-        </span>
-        <br>
-    @endif
+            {{-- Verificar se existe sessão error e imprimir ele --}}
+            @if (session('error'))
+                <div class="alert alert-danger m-3" role="alert">
+                    {{ session('error') }}
+                </div>
+            @endif
 
-    {{-- Form de cadastrar conta --}}
-    <form action="{{ route('account.store') }}" method="POST">
-        @csrf
+            {{-- Mensagens de error --}}
+            @if ($errors->any())
+                <div class="alert alert-danger m-3" role="alert">
+                    @foreach ($errors->all() as $error)
+                        {{ $error }} <br>
+                    @endforeach
+                </div>
+            @endif
 
-        {{-- Nome --}}
-        <label for="name">Name:</label>
-        <input type="text" name="name" id="name" placeholder="nome da conta..." value="{{ old('name') }}"> <br>
+            <div class="card-body">
+                {{-- Form de cadastrar conta --}}
+                <form action="{{ route('account.store') }}" method="POST" class="row g-3">
+                    @csrf
 
-        {{-- Valor --}}
-        <label for="value">Valor:</label>
-        <input type="text" name="value" id="value" placeholder="valor..." value="{{ old('value') }}"> <br>
+                    {{-- Nome --}}
+                    <div class="col-12">
+                        <label for="name" class="form-label">Nome: </label>
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Nome da conta" value="{{ old('name') }}">
+                    </div>
 
-        {{-- Vencimento --}}
-        <label for="due_date">Vencimento: </label>
-        <input type="date" name="due_date" id="due_date" value="{{ old('due_date') }}"> <br>
+                    {{-- Valor --}}
+                    <div class="col-12">
+                        <label for="value" class="form-label">Valor: </label>
+                        <input type="text" class="form-control" name="value" id="value" placeholder="Valor da conta" value="{{ old('value') }}">
+                    </div>
 
-        {{-- Botão --}}
-        <button type="submit">Cadastar</button>
-    </form>
-</div>
+                    {{-- vencimento --}}
+                    <div class="col-12">
+                        <label for="due_date" class="form-label">Vencimento</label>
+                        <input type="date" class="form-control" name="due_date" id="due_date" value="{{ old('due_date') }}">
+                    </div>
+
+                    {{-- Botão --}}
+                    <div class="col-12"><button type="submit" class="btn btn-success btn-sm">Cadastrar</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection

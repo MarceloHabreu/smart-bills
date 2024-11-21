@@ -1,28 +1,41 @@
-<div>
-    <a href="{{ route('account.index') }}"><button type="button">Home</button></a>
-    <br><br>
-    <a href="{{ route('account.edit', ['account' => $account->id]) }}"><button type="button">Editar</button></a>
+@extends('layouts.master')
 
+@section('content')
     <div>
-        <h2>Detalhes da Conta</h2>
+        <div class="card mt-4 mb-4 border-light shadow">
+            <div class="card-header d-flex justify-content-between">
+                <span>
+                    Visualizar Conta
+                </span>
+                <span>
+                    <a href="{{ route('account.index') }}" class="btn btn-info btn-sm me-1">Home</a>
+                    <a href="{{ route('account.edit', ['account' => $account->id]) }}" class="btn btn-warning btn-sm me-1">Editar</a>
+                </span>
+            </div>
 
-        {{-- Verificando se existe sessão de succes! --}}
-        <div>
+            {{-- Verificando se existe sessão de succes! --}}
             @if (session('success'))
-                <p style="color: #082">
-                    {{ session('success') }}
-                </p>
+                <div class="alert alert-success m-3" role="alert"> {{ session('success') }} </div>
             @endif
 
-            Nome:{{ $account->name }} <br>
-            Valor:{{ 'R$' . number_format($account->value, 2, ',', '.') }} <br>
-            Data de Vencimento:
-            {{ \Carbon\Carbon::parse($account->due_date)->tz('America/Sao_Paulo')->format('d/m/Y') }} <br>
-            Cadastrado:
-            {{ \Carbon\Carbon::parse($account->created_at)->tz('America/Sao_Paulo')->format('d/m/Y H:i') }} <br>
-            Editado:
-            {{ \Carbon\Carbon::parse($account->updated_at)->tz('America/Sao_Paulo')->format('d/m/Y H:i') }}
-            <br>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">Nome:</dt>
+                    <dd class="col-sm-9">{{ $account->name }}</dd>
+
+                    <dt class="col-sm-3">Valor:</dt>
+                    <dd class="col-sm-9">{{ 'R$' . number_format($account->value, 2, ',', '.') }}</dd>
+
+                    <dt class="col-sm-3">Vencimento:</dt>
+                    <dd class="col-sm-9">{{ \Carbon\Carbon::parse($account->due_date)->tz('America/Sao_Paulo')->format('d/m/Y') }}</dd>
+
+                    <dt class="col-sm-3">Cadastrado:</dt>
+                    <dd class="col-sm-9">{{ \Carbon\Carbon::parse($account->created_at)->tz('America/Sao_Paulo')->format('d/m/Y H:i') }}</dd>
+
+                    <dt class="col-sm-3">Editado:</dt>
+                    <dd class="col-sm-9">{{ \Carbon\Carbon::parse($account->updated_at)->tz('America/Sao_Paulo')->format('d/m/Y H:i') }}</dd>
+                </dl>
+            </div>
         </div>
     </div>
-</div>
+@endsection

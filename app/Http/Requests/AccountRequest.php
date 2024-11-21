@@ -23,7 +23,7 @@ class AccountRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'value' => 'required',
+            'value' => 'required|max:10',
             'due_date' => 'required',
         ];
     }
@@ -33,6 +33,7 @@ class AccountRequest extends FormRequest
         return [
             'name.required' => 'Campo nome é obrigatório',
             'value.required' => 'Campo valor é obrigatório',
+            'value.max' => 'Campo valor deve ter no máximo 8 digitos',
             'due_date.required' => 'Campo vencimento é obrigatório',
         ];
     }

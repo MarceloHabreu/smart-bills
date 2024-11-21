@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AccountRequest;
 use App\Models\Account;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AccountController extends Controller
 {
@@ -34,14 +36,25 @@ class AccountController extends Controller
     // Armazenar nova conta
     public function store(AccountRequest $request)
     {
-        // cadastrando no banco de dados
-        $registred = Account::create($request->all());
+        try {
+            // cadastrando no banco de dados
+            $account = Account::create([
+                'name' => $request->name,
+                'value' => str_replace(',', '.', str_replace('.', '', $request->value)),
+                'due_date' => $request->due_date,
+            ]);
+            // Salvar Log
+            Log::info('Conta salva com sucesso', ['id' => $account->id, 'account' => $account]);
 
-        // redirecionar para view show
-        if ($registred) {
-            return redirect()->route('account.show', ['account' => $registred->id])->with('success', 'Conta cadastrada com sucesso!');
+            // redirecionar para view show
+            return redirect()->route('account.show', ['account' => $account->id])->with('success', 'Conta cadastrada com sucesso!');
+        } catch (Exception $e) {
+
+            // Salvar Log
+            Log::warning('Conta não cadastrada', ['error' => $e->getMessage()]);
+
+            return back()->withInput()->with('error', 'Erro ao cadastrar a conta!');
         }
-        return redirect()->route('account.index')->with('error', 'Erro ao cadastrar a conta!');
     }
 
     // Carregar form de editar conta
@@ -55,17 +68,24 @@ class AccountController extends Controller
     {
 
         // editando as info no banco de dados
-        $updated = $account->update([
-            'name' => $request->name,
-            'value' => $request->value,
-            'due_date' => $request->due_date,
-        ]);
+        try {
+            $account->update([
+                'name' => $request->name,
+                'value' => str_replace(',', '.', str_replace('.', '', $request->value)),
+                'due_date' => $request->due_date,
+            ]);
 
-        // redirecionando após atualização
-        if ($updated) {
+            // Salvar Log
+            Log::info('Conta editado com sucesso', ['id' => $account->id, 'account' => $account]);
+
+            // redirecionando após atualização
             return redirect()->route('account.show', ['account' => $account->id])->with('success', 'Conta editada com succeso!');
+        } catch (Exception $e) {
+
+            // Salvar Log
+            Log::warning('Conta não editada', ['error' => $e->getMessage()]);
+            return back()->withInput()->with('error', 'Erro ao editar a conta!');
         }
-        return redirect()->route('account.index')->with('error', 'Erro ao editar a conta!');
     }
 
     // apagar uma conta

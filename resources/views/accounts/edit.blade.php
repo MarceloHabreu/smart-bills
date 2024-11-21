@@ -1,38 +1,63 @@
-<div>
-    <a href="{{ route('account.index') }}"><button type="button">Home</button></a>
+@extends('layouts.master')
+
+@section('content')
     <div>
-        <h2>Editar Conta</h2>
+        <div class="card mt-4 mb-4 border-light shadow">
+            <div class="card-header d-flex justify-content-between">
+                <span>
+                    Editar Conta
+                </span>
+                <span>
+                    <a href="{{ route('account.index') }}" class="btn btn-info btn-sm me-1">Home</a>
+                    <a href="{{ route('account.show', ['account' => $account->id]) }}" class="btn btn-primary btn-sm me-1">Visualizar</a>
+                </span>
+            </div>
 
-        {{-- Mensagens de error --}}
-        @if ($errors->any())
-            <span style="color: #f00">
-                @foreach ($errors->all() as $error)
-                    {{ $error }} <br>
-                @endforeach
-            </span>
-            <br>
-        @endif
+            {{-- Verificar se existe sessão error e imprimir ele --}}
+            @if (session('error'))
+                <div class="alert alert-danger m-3" role="alert">
+                    {{ session('error') }}
+                </div>
+            @endif
 
-        {{-- Form de cadastrar conta --}}
-        <form action="{{ route('account.update', ['account' => $account->id]) }}" method="POST">
-            @csrf
-            @method('PUT')
+            {{-- Mensagens de error --}}
+            @if ($errors->any())
+                <div class="alert alert-danger m-3" role="alert">
+                    @foreach ($errors->all() as $error)
+                        {{ $error }} <br>
+                    @endforeach
+                </div>
+            @endif
 
-            {{-- Nome --}}
-            <label for="name">Name:</label>
-            <input type="text" name="name" id="name" placeholder="nome da conta..." value="{{ old('name', $account->name) }}">
-            <br>
+            <div class="card-body">
+                {{-- Form de editar conta --}}
+                <form action="{{ route('account.update', ['account' => $account->id]) }}" method="POST" class="row g-3">
+                    @csrf
+                    @method('PUT')
 
-            {{-- Valor --}}
-            <label for="value">Valor:</label>
-            <input type="text" name="value" id="value" placeholder="valor..." value="{{ old('value', $account->value) }}"> <br>
+                    {{-- Nome --}}
+                    <div class="col-12">
+                        <label for="name" class="form-label">Nome: </label>
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Nome da conta" value="{{ old('name', $account->name) }}">
+                    </div>
 
-            {{-- Vencimento --}}
-            <label for="due_date">Vencimento: </label>
-            <input type="date" name="due_date" id="due_date" value="{{ old('due_date', $account->due_date) }}"> <br>
+                    {{-- Valor --}}
+                    <div class="col-12">
+                        <label for="value" class="form-label">Valor: </label>
+                        <input type="text" class="form-control" name="value" id="value" placeholder="Valor da conta"
+                            value="{{ old('value', isset($account->value) ? number_format($account->value, '2', ',', '.') : '') }}">
+                    </div>
 
-            {{-- Botão --}}
-            <button type="submit">Atualizar</button>
-        </form>
+                    {{-- vencimento --}}
+                    <div class="col-12">
+                        <label for="due_date" class="form-label">Vencimento</label>
+                        <input type="date" class="form-control" name="due_date" id="due_date" value="{{ old('due_date', $account->due_date) }}">
+                    </div>
+
+                    {{-- Botão --}}
+                    <div class="col-12"><button type="submit" class="btn btn-warning btn-sm">Atualizar</button></div>
+                </form>
+            </div>
+        </div>
     </div>
-</div>
+@endsection
