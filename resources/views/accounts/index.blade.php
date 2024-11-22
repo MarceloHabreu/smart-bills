@@ -62,6 +62,7 @@
                         <th scope="col">Nome</th>
                         <th scope="col">Valor</th>
                         <th scope="col">Vencimento</th>
+                        <th scope="col">Situação</th>
                         <th scope="col" class="text-center">Ações</th>
                     </tr>
                 </thead>
@@ -71,6 +72,7 @@
                             <td>{{ $account->name }}</td>
                             <td>{{ 'R$' . number_format($account->value, 2, ',', '.') }}</td>
                             <td>{{ \Carbon\Carbon::parse($account->due_date)->tz('America/Sao_Paulo')->format('d/m/Y') }}</td>
+                            <td>{!! '<span class="badge text-bg-' . $account->statusAccount->color . '">' . $account->statusAccount->name . '</span>' !!}</td>
                             <td class="d-md-flex justify-content-center">
                                 {{-- Ação visualizar --}}
                                 <a href="{{ route('account.show', ['account' => $account->id]) }}"class="btn btn-primary btn-sm me-1">Visualizar</a>

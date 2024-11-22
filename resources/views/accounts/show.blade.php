@@ -27,6 +27,9 @@
                     <dt class="col-sm-3">Vencimento:</dt>
                     <dd class="col-sm-9">{{ \Carbon\Carbon::parse($account->due_date)->tz('America/Sao_Paulo')->format('d/m/Y') }}</dd>
 
+                    <dt class="col-sm-3">Situação:</dt>
+                    <dd class="col-sm-9">{!! '<span class="badge text-bg-' . $account->statusAccount->color . '">' . $account->statusAccount->name . '</span>' !!}</dd>
+
                     <dt class="col-sm-3">Cadastrado:</dt>
                     <dd class="col-sm-9">{{ \Carbon\Carbon::parse($account->created_at)->tz('America/Sao_Paulo')->format('d/m/Y H:i') }}</dd>
 

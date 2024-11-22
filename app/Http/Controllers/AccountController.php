@@ -24,6 +24,7 @@ class AccountController extends Controller
             ->when($request->filled('end_date'), function ($whenQuery) use ($request) {
                 $whenQuery->where('due_date', '<=', \Carbon\Carbon::parse($request->end_date)->format('Y-m-d'));
             })
+            ->with('statusAccount')
             ->orderByDesc('created_at')
             ->paginate(3)
             ->withQueryString();

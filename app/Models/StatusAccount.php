@@ -5,23 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Account extends Model
+class StatusAccount extends Model
 {
     use HasFactory;
 
     // indicar nome da tabela
-    protected $table = 'accounts';
+    protected $table = 'status_accounts';
 
     // indicar colunas
     protected $fillable = [
         'name',
-        'value',
-        'due_date'
+        'color',
     ];
 
-    // relacionamento
-    public function statusAccount()
+    // relacionamentos
+    public function account()
     {
-        return $this->belongsTo(StatusAccount::class);
+        return $this->hasMany(Account::class);
     }
 }
