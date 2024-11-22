@@ -15,3 +15,6 @@ Route::get('/show-account/{account}', [AccountController::class, 'show'])->name(
 Route::get('/edit-account/{account}', [AccountController::class, 'edit'])->name('account.edit');
 Route::put('/update-account/{account}', [AccountController::class, 'update'])->name('account.update');
 Route::delete('/destroy-account/{account}', [AccountController::class, 'destroy'])->name('account.destroy');
+
+// Generate pdf
+Route::get('/generate-pdf-account', [AccountController::class, 'generatePdf'])->name('account.generate-pdf');

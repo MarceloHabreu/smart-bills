@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AccountRequest;
 use App\Models\Account;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -13,6 +14,7 @@ class AccountController extends Controller
     // Listar contas
     public function index(Request $request)
     {
+        // todo método de pesquisar
         $accounts = Account::when($request->has('name'), function ($whenQuery) use ($request) {
             $whenQuery->where('name', 'like', '%' . $request->name . '%');
         })
@@ -112,5 +114,36 @@ class AccountController extends Controller
             return redirect()->route('account.index')->with('success', 'Conta apagada com succeso!');
         }
         return redirect()->route('account.index')->with('error', 'Erro ao editar a conta!');
+    }
+
+
+    // metodo gerar pdf
+    public function generatePdf(Request $request)
+    {
+        // recuperando as contas
+        //$accounts = Account::orderByDesc('created_at')->get();
+
+        $accounts = Account::when($request->has('name'), function ($whenQuery) use ($request) {
+            $whenQuery->where('name', 'like', '%' . $request->name . '%');
+        })
+            ->when($request->filled('start_date'), function ($whenQuery) use ($request) {
+                $whenQuery->where('due_date', '>=', \Carbon\Carbon::parse($request->start_date)->format('Y-m-d'));
+            })
+            ->when($request->filled('end_date'), function ($whenQuery) use ($request) {
+                $whenQuery->where('due_date', '<=', \Carbon\Carbon::parse($request->end_date)->format('Y-m-d'));
+            })
+            ->orderByDesc('created_at')
+            ->get();
+
+        // calcular a soma total dos valores
+        $totalValue = $accounts->sum('value');
+
+        // Gerando pdf
+        $pdf = PDF::loadView('accounts.generate-pdf', [
+            'accounts' => $accounts,
+            'totalValue' => $totalValue,
+        ])->setPaper('a4', 'portrait');
+
+        return $pdf->download('minhas_contas.pdf');
     }
 }

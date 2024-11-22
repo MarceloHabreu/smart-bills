@@ -38,14 +38,17 @@
         </div>
     </div>
 
-    {{-- Cadastrar a conta --}}
     <div class="card mt-4 mb-4 border-light shadow">
         <div class="card-header d-flex justify-content-between">
             <span>
                 Contas
             </span>
             <span>
+                {{-- Cadastrar a conta --}}
                 <a href="{{ route('account.create') }}" class="btn btn-success btn-sm">Cadastrar Conta</a>
+                {{-- Gerar pdf --}}
+                {{-- <a href="{{ route('account.generate-pdf') }}" class="btn btn-warning btn-sm">Gerar PDF</a> --}}
+                <a href="{{ url('generate-pdf-account?' . request()->getQueryString()) }}" class="btn btn-warning btn-sm">Gerar PDF</a>
             </span>
         </div>
 
