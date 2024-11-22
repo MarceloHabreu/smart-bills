@@ -13,21 +13,8 @@
                 </span>
             </div>
 
-            {{-- Verificar se existe sessão error e imprimir ele --}}
-            @if (session('error'))
-                <div class="alert alert-danger m-3" role="alert">
-                    {{ session('error') }}
-                </div>
-            @endif
-
-            {{-- Mensagens de error --}}
-            @if ($errors->any())
-                <div class="alert alert-danger m-3" role="alert">
-                    @foreach ($errors->all() as $error)
-                        {{ $error }} <br>
-                    @endforeach
-                </div>
-            @endif
+            {{-- Verificando se existe sessão de succes ou error! --}}
+            <x-alert />
 
             <div class="card-body">
                 {{-- Form de editar conta --}}

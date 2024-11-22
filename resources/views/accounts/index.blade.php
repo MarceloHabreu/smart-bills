@@ -47,17 +47,12 @@
                 {{-- Cadastrar a conta --}}
                 <a href="{{ route('account.create') }}" class="btn btn-success btn-sm">Cadastrar Conta</a>
                 {{-- Gerar pdf --}}
-                {{-- <a href="{{ route('account.generate-pdf') }}" class="btn btn-warning btn-sm">Gerar PDF</a> --}}
                 <a href="{{ url('generate-pdf-account?' . request()->getQueryString()) }}" class="btn btn-warning btn-sm">Gerar PDF</a>
             </span>
         </div>
 
-        {{-- Verificando se existe sessão de succes! --}}
-        @if (session('success'))
-            <div class="alert alert-success m-3" role="alert"> {{ session('success') }}
-                <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+        {{-- Verificando se existe sessão de succes or error! --}}
+        <x-alert />
 
         {{-- Toda a listagem de Contas --}}
         <div class="card-body">
@@ -82,10 +77,10 @@
                                 {{-- Ação editar --}}
                                 <a href="{{ route('account.edit', ['account' => $account->id]) }}" class="btn btn-warning btn-sm me-1">Editar</a>
                                 {{-- Ação apagar --}}
-                                <form action="{{ route('account.destroy', ['account' => $account->id]) }}" method="POST">
+                                <form id="formDelete{{ $account->id }}" action="{{ route('account.destroy', ['account' => $account->id]) }}" method="POST">
                                     @csrf
                                     @method('delete')
-                                    <button type="submit" onclick="return confirm('Tem certeza que deseja apagar este registro?')" class="btn btn-danger btn-sm me-1">Apagar</button>
+                                    <button type="submit" onclick="deleteConfirm(event, {{ $account->id }})" class="btn btn-danger btn-sm me-1">Apagar</button>
                                 </form>
                             </td>
                         </tr>
