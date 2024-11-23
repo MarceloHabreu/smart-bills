@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Account;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -14,14 +15,15 @@ class AccountSeeder extends Seeder
      */
     public function run(): void
     {
+
         $faker = Faker::create();
 
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             DB::table('accounts')->insert([
                 'name' => $faker->name,
                 'value' => $faker->randomFloat(2, 100, 10000), // Valor entre 100 e 10000
-                'due_date' => $faker->dateTimeBetween('now', '+1 year'),
-                'status_account_id' => $faker->randomElement([1, 2, 3]), // Valores 1, 2 ou 3
+                'due_date' => $faker->dateTimeBetween('now', '+1 month'),
+                'status_account_id' => $faker->randomElement([1, 2, 3, 4]), // Valores 1, 2 ou 3
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

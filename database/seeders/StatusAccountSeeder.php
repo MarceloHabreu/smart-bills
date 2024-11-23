@@ -16,19 +16,31 @@ class StatusAccountSeeder extends Seeder
         if (!StatusAccount::where('name', 'Paga')->first()) {
             StatusAccount::create([
                 'name' => 'Paga',
-                'color' => 'success',
+                'color' => '#28a745', // Verde-escuro
             ]);
         }
         if (!StatusAccount::where('name', 'Pendente')->first()) {
             StatusAccount::create([
                 'name' => 'Pendente',
-                'color' => 'warning',
+                'color' => '#ffc107', // Amarelo
             ]);
         }
-        if (!StatusAccount::where('name', 'Urgenmte')->first()) {
+        if (!StatusAccount::where('name', 'Urgente')->first()) {
             StatusAccount::create([
                 'name' => 'Urgente',
-                'color' => 'danger',
+                'color' => '#dc3545', // Vermelho intenso
+            ]);
+        }
+        if (!StatusAccount::where('name', 'Cancelada')->first()) {
+            StatusAccount::create([
+                'name' => 'Cancelada',
+                'color' => '#6c757d', // Cinza-claro
+            ]);
+        }
+        if (!StatusAccount::where('name', 'Atrasada')->first()) {
+            StatusAccount::create([
+                'name' => 'Atrasada',
+                'color' => '#fd7e14', // Laranja-escuro
             ]);
         }
     }

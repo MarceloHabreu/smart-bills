@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AccountRequest;
 use App\Models\Account;
+use App\Models\StatusAccount;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Http\Request;
@@ -47,7 +48,14 @@ class AccountController extends Controller
     // Carregar form cadastrar nova conta
     public function create()
     {
-        return view('accounts.create');
+        /// Recuperar do banco de dados as situações (status), exceto 'Atrasada'
+        $statusAccounts = StatusAccount::where('name', '!=', 'Atrasada')
+            ->orderBy('name', 'asc')
+            ->get();
+
+        return view('accounts.create', [
+            'statusAccounts' => $statusAccounts,
+        ]);
     }
 
     // Armazenar nova conta
@@ -59,6 +67,7 @@ class AccountController extends Controller
                 'name' => $request->name,
                 'value' => str_replace(',', '.', str_replace('.', '', $request->value)),
                 'due_date' => $request->due_date,
+                'status_account_id' => $request->status_account_id,
             ]);
             // Salvar Log
             Log::info('Conta salva com sucesso', ['id' => $account->id, 'account' => $account]);
@@ -77,7 +86,15 @@ class AccountController extends Controller
     // Carregar form de editar conta
     public function edit(Account $account)
     {
-        return view('accounts.edit', ['account' => $account]);
+        // Recuperar do banco de dados as situações (status), exceto 'Atrasada'
+        $statusAccounts = StatusAccount::where('name', '!=', 'Atrasada')
+            ->orderBy('name', 'asc')
+            ->get();
+
+        return view('accounts.edit', [
+            'account' => $account,
+            'statusAccounts' => $statusAccounts,
+        ]);
     }
 
     // atualizar dados da nova conta
@@ -90,6 +107,7 @@ class AccountController extends Controller
                 'name' => $request->name,
                 'value' => str_replace(',', '.', str_replace('.', '', $request->value)),
                 'due_date' => $request->due_date,
+                'status_account_id' => $request->status_account_id,
             ]);
 
             // Salvar Log

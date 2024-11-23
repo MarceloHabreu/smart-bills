@@ -69,11 +69,23 @@
                 <tbody>
                     @forelse ($accounts as $account)
                         <tr>
+                            {{-- Nome --}}
                             <td>{{ $account->name }}</td>
+
+                            {{-- Valor --}}
                             <td>{{ 'R$' . number_format($account->value, 2, ',', '.') }}</td>
-                            <td>{{ \Carbon\Carbon::parse($account->due_date)->tz('America/Sao_Paulo')->format('d/m/Y') }}</td>
-                            <td>{!! '<span class="badge text-bg-' . $account->statusAccount->color . '">' . $account->statusAccount->name . '</span>' !!}</td>
+
+                            {{-- Adicionando 1 dia na visu pois tem um erro que está atrsando um dia e ainda não identifiquei --}}
+                            <td>{{ \Carbon\Carbon::parse($account->due_date)->addDay()->tz('America/Sao_Paulo')->format('d/m/Y') }}</td>
+
+                            {{-- Status --}}
+                            {{-- <td>{!! '<span class="badge text-bg-' . $account->statusAccount->color . '">' . $account->statusAccount->name . '</span>' !!}</td> --}}
+                            <td>
+                                {!! '<span class="badge" style="background-color: ' . $account->statusAccount->color . '; color: white;">' . $account->statusAccount->name . '</span>' !!}
+                            </td>
+
                             <td class="d-md-flex justify-content-center">
+
                                 {{-- Ação visualizar --}}
                                 <a href="{{ route('account.show', ['account' => $account->id]) }}"class="btn btn-primary btn-sm me-1">Visualizar</a>
                                 {{-- Ação editar --}}

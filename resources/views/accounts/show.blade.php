@@ -24,11 +24,15 @@
                     <dt class="col-sm-3">Valor:</dt>
                     <dd class="col-sm-9">{{ 'R$' . number_format($account->value, 2, ',', '.') }}</dd>
 
+                    {{-- Adicionando 1 dia na visu pois tem um erro que está atrsando um dia e ainda não identifiquei --}}
                     <dt class="col-sm-3">Vencimento:</dt>
-                    <dd class="col-sm-9">{{ \Carbon\Carbon::parse($account->due_date)->tz('America/Sao_Paulo')->format('d/m/Y') }}</dd>
+                    <dd class="col-sm-9">{{ \Carbon\Carbon::parse($account->due_date)->addDay()->tz('America/Sao_Paulo')->format('d/m/Y') }}</dd>
 
                     <dt class="col-sm-3">Situação:</dt>
-                    <dd class="col-sm-9">{!! '<span class="badge text-bg-' . $account->statusAccount->color . '">' . $account->statusAccount->name . '</span>' !!}</dd>
+                    {{-- <dd class="col-sm-9">{!! '<span class="badge text-bg-' . $account->statusAccount->color . '">' . $account->statusAccount->name . '</span>' !!}</dd> --}}
+                    <dd class="col-sm-9">
+                        {!! '<span class="badge" style="background-color: ' . $account->statusAccount->color . '; color: white;">' . $account->statusAccount->name . '</span>' !!}
+                    </dd>
 
                     <dt class="col-sm-3">Cadastrado:</dt>
                     <dd class="col-sm-9">{{ \Carbon\Carbon::parse($account->created_at)->tz('America/Sao_Paulo')->format('d/m/Y H:i') }}</dd>

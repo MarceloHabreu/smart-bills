@@ -16,7 +16,8 @@ class Account extends Model
     protected $fillable = [
         'name',
         'value',
-        'due_date'
+        'due_date',
+        'status_account_id',
     ];
 
     // relacionamento
