@@ -81,7 +81,9 @@
                             {{-- Status --}}
                             {{-- <td>{!! '<span class="badge text-bg-' . $account->statusAccount->color . '">' . $account->statusAccount->name . '</span>' !!}</td> --}}
                             <td>
-                                {!! '<span class="badge" style="background-color: ' . $account->statusAccount->color . '; color: white;">' . $account->statusAccount->name . '</span>' !!}
+                                <a href="{{ route('account.change-status', ['account' => $account->id]) }}">
+                                    {!! '<span class="badge" style="background-color: ' . $account->statusAccount->color . '; color: white;">' . $account->statusAccount->name . '</span>' !!}
+                                </a>
                             </td>
 
                             <td class="d-md-flex justify-content-center">

@@ -31,7 +31,9 @@
                     <dt class="col-sm-3">Situação:</dt>
                     {{-- <dd class="col-sm-9">{!! '<span class="badge text-bg-' . $account->statusAccount->color . '">' . $account->statusAccount->name . '</span>' !!}</dd> --}}
                     <dd class="col-sm-9">
-                        {!! '<span class="badge" style="background-color: ' . $account->statusAccount->color . '; color: white;">' . $account->statusAccount->name . '</span>' !!}
+                        <a href="{{ route('account.change-status', ['account' => $account->id]) }}">
+                            {!! '<span class="badge" style="background-color: ' . $account->statusAccount->color . '; color: white;">' . $account->statusAccount->name . '</span>' !!}
+                        </a>
                     </dd>
 
                     <dt class="col-sm-3">Cadastrado:</dt>

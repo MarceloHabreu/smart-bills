@@ -165,4 +165,25 @@ class AccountController extends Controller
 
         return $pdf->download('minhas_contas.pdf');
     }
+
+    // alterar a situação da conta
+    public function changeStatus(Account $account)
+    {
+        try {
+            // editar as info do registro no banco de dados
+            $account->update([
+                'status_account_id' => $account->status_account_id == 1 ? 2 : 1,
+            ]);
+
+            // Salvar Log
+            Log::info('Situação da conta editado com sucesso', ['id' => $account->id, 'account' => $account]);
+
+            // manter na página após atualizar o status
+            return back()->with('success', 'Situação da conta atualizado com sucesso!');
+        } catch (Exception $e) {
+            // Salvar Log
+            Log::warning('Situação da conta não editada', ['error' => $e->getMessage()]);
+            return back()->withInput()->with('error', 'Erro ao editar a situação da conta!');
+        }
+    }
 }
