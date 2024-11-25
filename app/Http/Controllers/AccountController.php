@@ -141,7 +141,6 @@ class AccountController extends Controller
     public function generatePdf(Request $request)
     {
         // recuperando as contas
-        //$accounts = Account::orderByDesc('created_at')->get();
 
         $accounts = Account::when($request->has('name'), function ($whenQuery) use ($request) {
             $whenQuery->where('name', 'like', '%' . $request->name . '%');
@@ -152,7 +151,7 @@ class AccountController extends Controller
             ->when($request->filled('end_date'), function ($whenQuery) use ($request) {
                 $whenQuery->where('due_date', '<=', \Carbon\Carbon::parse($request->end_date)->format('Y-m-d'));
             })
-            ->orderByDesc('created_at')
+            ->orderBy('due_date')
             ->get();
 
         // calcular a soma total dos valores
