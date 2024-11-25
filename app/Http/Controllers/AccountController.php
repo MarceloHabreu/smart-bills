@@ -9,6 +9,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class AccountController extends Controller
 {
@@ -185,5 +186,64 @@ class AccountController extends Controller
             Log::warning('Situação da conta não editada', ['error' => $e->getMessage()]);
             return back()->withInput()->with('error', 'Erro ao editar a situação da conta!');
         }
+    }
+
+    // metodo gerar excel
+    public function generateExcel(Request $request)
+    {
+        // Recuperar as contas
+        $accounts = Account::when($request->has('name'), function ($whenQuery) use ($request) {
+            $whenQuery->where('name', 'like', '%' . $request->name . '%');
+        })
+            ->when($request->filled('start_date'), function ($whenQuery) use ($request) {
+                $whenQuery->where('due_date', '>=', \Carbon\Carbon::parse($request->start_date)->format('Y-m-d'));
+            })
+            ->when($request->filled('end_date'), function ($whenQuery) use ($request) {
+                $whenQuery->where('due_date', '<=', \Carbon\Carbon::parse($request->end_date)->format('Y-m-d'));
+            })
+            ->with('statusAccount')
+            ->orderBy('due_date')
+            ->get();
+
+        // Calcular a soma total dos valores
+        $totalValue = $accounts->sum('value');
+
+        // Criar um arquivo temporário
+        $csvFileName = tempnam(sys_get_temp_dir(), 'csv_');
+
+        // Abrir o arquivo na forma de escrita
+        $openFile = fopen($csvFileName, 'w');
+
+        // Criar o cabeçalho do Excel
+        $cabecalho = ['Nome', 'Vencimento', mb_convert_encoding('Situação', 'ISO-8859-1', 'UTF-8'), 'Valor'];
+
+        // Escrever o cabeçalho no arquivo
+        fputcsv($openFile, $cabecalho, ';');
+
+        // Ler os registros recuperados do banco de dados
+        foreach ($accounts as $account) {
+            // Criar o array com os dados de linha do Excel
+            $accountArray = [
+                'name' => mb_convert_encoding($account->name, 'ISO-8859-1', 'UTF-8'),
+                'due_date' => \Carbon\Carbon::parse($account->due_date)->format('d/m/Y'),
+                'status' => mb_convert_encoding($account->statusAccount->name, 'ISO-8859-1', 'UTF-8'),
+                'value' => number_format($account->value, 2, ',', '.'),
+            ];
+
+            // Escrever o conteúdo no arquivo
+            fputcsv($openFile, $accountArray, ';');
+        }
+
+        // Criar o rodapé do Excel
+        $rodape = ['', '', '', number_format($totalValue, 2, ',', '.')];
+
+        // Escrever o conteúdo no arquivo
+        fputcsv($openFile, $rodape, ';');
+
+        // Fechar o arquivo após a escrita
+        fclose($openFile);
+
+        // Realizar o download do arquivo
+        return response()->download($csvFileName, 'relatorio_contas_financeControl_' . Str::ulid() . '.csv');
     }
 }

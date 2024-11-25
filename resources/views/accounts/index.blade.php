@@ -48,6 +48,8 @@
                 <a href="{{ route('account.create') }}" class="btn btn-success btn-sm">Cadastrar Conta</a>
                 {{-- Gerar pdf --}}
                 <a href="{{ url('generate-pdf-account?' . request()->getQueryString()) }}" class="btn btn-warning btn-sm">Gerar PDF</a>
+                {{-- Gerar excel --}}
+                <a href="{{ url('generate-excel-account?' . request()->getQueryString()) }}" class="btn btn-success btn-sm">Gerar Excel</a>
             </span>
         </div>
 

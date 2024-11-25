@@ -34,7 +34,7 @@ class UpdateAccountStatus extends Command
     public function handle()
     {
         $now = Carbon::now(); // data atual
-        $fiveDaysLater = $now->copy()->addDays(4); // data daqui a 4 dias
+        $fiveDaysLater = $now->copy()->addDays(5); // data daqui a 5 dias
         $urgentStatusId = 3; // ID do status "urgente" 
         $pendingStatusId = 2; // ID do status "pendente"
         $overdueStatusId = 5; // ID do status "atrasada" 

@@ -20,3 +20,6 @@ Route::get('/change-status-account/{account}', [AccountController::class, 'chang
 
 // Generate pdf
 Route::get('/generate-pdf-account', [AccountController::class, 'generatePdf'])->name('account.generate-pdf');
+
+// Generate excel
+Route::get('/generate-excel-account', [AccountController::class, 'generateExcel'])->name('account.generate-excel');
