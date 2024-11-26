@@ -18,6 +18,7 @@ class Account extends Model
         'value',
         'due_date',
         'status_account_id',
+        'user_id',
     ];
 
     // relacionamento

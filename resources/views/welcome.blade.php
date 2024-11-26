@@ -4,9 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Finance Control - Bem-Vindo</title>
+    <title>Smart Bills - Bem-Vindo</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" href="{{ asset('assets\logo-smartbills\SmartBills\favicon_transparent_32x32.ico') }}" type="image/x-icon" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=El+Messiri:wght@400..700&display=swap');
 

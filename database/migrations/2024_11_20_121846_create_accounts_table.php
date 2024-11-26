@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->float('value');
             $table->date('due_date');
+            $table->unsignedBigInteger('user_id');  // Coluna para associar com o usuário
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');  // Chave estrangeira
             $table->timestamps();
         });
     }

@@ -8,7 +8,7 @@
                     Editar Conta
                 </span>
                 <span>
-                    <a href="{{ route('account.index') }}" class="btn btn-info btn-sm me-1">Home</a>
+                    <a href="{{ route('account.index') }}" class="btn btn-info btn-sm me-1">Listar</a>
                     <a href="{{ route('account.show', ['account' => $account->id]) }}" class="btn btn-primary btn-sm me-1">Visualizar</a>
                 </span>
             </div>

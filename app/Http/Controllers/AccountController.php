@@ -8,6 +8,7 @@ use App\Models\StatusAccount;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -17,9 +18,11 @@ class AccountController extends Controller
     public function index(Request $request)
     {
         // todo método de pesquisar
-        $accounts = Account::when($request->has('name'), function ($whenQuery) use ($request) {
-            $whenQuery->where('name', 'like', '%' . $request->name . '%');
-        })
+        $user = Auth::id();  // Obtém o usuário autenticado
+        $accounts = Account::where('user_id', $user)
+            ->when($request->has('name'), function ($whenQuery) use ($request) {
+                $whenQuery->where('name', 'like', '%' . $request->name . '%');
+            })
             ->when($request->filled('start_date'), function ($whenQuery) use ($request) {
                 $whenQuery->where('due_date', '>=', \Carbon\Carbon::parse($request->start_date)->format('Y-m-d'));
             })
@@ -65,6 +68,7 @@ class AccountController extends Controller
         try {
             // cadastrando no banco de dados
             $account = Account::create([
+                'user_id' => Auth::id(),  // Associa o usuário autenticado à conta
                 'name' => $request->name,
                 'value' => str_replace(',', '.', str_replace('.', '', $request->value)),
                 'due_date' => $request->due_date,
@@ -140,11 +144,13 @@ class AccountController extends Controller
     // metodo gerar pdf
     public function generatePdf(Request $request)
     {
+        // id do usuário
+        $user = Auth::id();
         // recuperando as contas
-
-        $accounts = Account::when($request->has('name'), function ($whenQuery) use ($request) {
-            $whenQuery->where('name', 'like', '%' . $request->name . '%');
-        })
+        $accounts = Account::where('user_id', $user)
+            ->when($request->has('name'), function ($whenQuery) use ($request) {
+                $whenQuery->where('name', 'like', '%' . $request->name . '%');
+            })
             ->when($request->filled('start_date'), function ($whenQuery) use ($request) {
                 $whenQuery->where('due_date', '>=', \Carbon\Carbon::parse($request->start_date)->format('Y-m-d'));
             })
@@ -179,7 +185,7 @@ class AccountController extends Controller
             Log::info('Situação da conta editado com sucesso', ['id' => $account->id, 'account' => $account]);
 
             // manter na página após atualizar o status
-            return back()->with('success', 'Situação da conta atualizado com sucesso!');
+            return back()->with('success', 'Situação da conta atualizada com sucesso!');
         } catch (Exception $e) {
             // Salvar Log
             Log::warning('Situação da conta não editada', ['error' => $e->getMessage()]);
@@ -190,10 +196,13 @@ class AccountController extends Controller
     // metodo gerar excel
     public function generateExcel(Request $request)
     {
-        // Recuperar as contas
-        $accounts = Account::when($request->has('name'), function ($whenQuery) use ($request) {
-            $whenQuery->where('name', 'like', '%' . $request->name . '%');
-        })
+        // id do usuário
+        $user = Auth::id();
+        // recuperando as contas
+        $accounts = Account::where('user_id', $user)
+            ->when($request->has('name'), function ($whenQuery) use ($request) {
+                $whenQuery->where('name', 'like', '%' . $request->name . '%');
+            })
             ->when($request->filled('start_date'), function ($whenQuery) use ($request) {
                 $whenQuery->where('due_date', '>=', \Carbon\Carbon::parse($request->start_date)->format('Y-m-d'));
             })
