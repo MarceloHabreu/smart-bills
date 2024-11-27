@@ -111,21 +111,6 @@ return [
             // 'encrypt' => env('DB_ENCRYPT', 'yes'),
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
-        'mysql' => [
-            'driver' => 'mysql',
-            'host' => env('DB_HOST', 'autorack.proxy.rlwy.net'),  // Certifique-se de que está correto aqui
-            'port' => env('DB_PORT', '31371'),
-            'database' => env('DB_DATABASE', 'railway'),
-            'username' => env('DB_USERNAME', 'root'),
-            'password' => env('DB_PASSWORD', ''),
-            'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => env('DB_CHARSET', 'utf8mb4'),
-            'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),
-            'prefix' => '',
-            'prefix_indexes' => true,
-            'strict' => true,
-            'engine' => null,
-        ],
 
 
 
