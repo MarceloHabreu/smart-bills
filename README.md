@@ -42,7 +42,7 @@ Se deseja apenas **clonar e testar** o projeto ou aprimorá-lo, siga os passos a
 ### Passos de Instalação:
 1. Clone o repositório:
    ```sh
-   git clone https://github.com/seu-usuario/smart-bills.git
+       git clone https://github.com/MarceloHabreu/smart-bills.git
    ```
 2. Acesse a pasta do projeto:
    ```sh
@@ -77,7 +77,7 @@ Se deseja apenas **clonar e testar** o projeto ou aprimorá-lo, siga os passos a
 - Diagrama de Casos de Uso
 ![Diagrama de Casos de Uso](https://github.com/MarceloHabreu/smart-bills/blob/main/Diagramas/Diagrama_casos_de_uso_SmartBills.png)
 
-### Diagrama de Classes
+- Diagrama de Classes
 ![Diagrama de Classes](https://github.com/MarceloHabreu/smart-bills/blob/main/Diagramas/Diagrama_de_classes_SmartBills.png)
 
 <div align="center">
